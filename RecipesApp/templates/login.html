@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+</head>
+<body>
+    {{ msg }}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Zaloguj">
+    </form>
+
+    <a href="/logout/"><button>Wyloguj</button></a>
+</body>
+</html>
