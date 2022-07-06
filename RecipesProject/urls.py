@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('recipes/', Recipes.as_view(), name='recipes'),
+    path('recipes/<int:recipe_id>/', RecipeDetail.as_view(), name='recipe_detail'),
     path('recipes/add/', AddRecipe.as_view(), name='add_recipe'),
     path('recipes/delete/<int:pk>/', DeleteRecipe.as_view(), name='delete_recipe'),
     path('allergen/add/', AddAllergen.as_view(), name='add_allergen'),

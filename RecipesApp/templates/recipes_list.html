@@ -6,7 +6,8 @@
             <div class="col-md-6 px-0">
                 <h1 class="display-4 fst-italic">{{ recipe.name }}</h1>
                 <p class="lead my-3"> {{ recipe.description }}</p>
-                <p class="lead mb-0"><a href="#" class="text-white fw-bold">Czytaj dalej...</a></p>
+                <p class="lead mb-0"><a href="{{ recipe.id }}" class="text-white fw-bold">Czytaj dalej...</a></p>
+                <img class="recipe-image" src="/../../{{ recipe.image }}" alt="recipe image">
             </div>
         </div>
     {% endfor %}

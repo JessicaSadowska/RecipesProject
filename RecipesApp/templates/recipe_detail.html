@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="book ">
+        <img class="recipe-image" src="/../../{{ recipe.image }}" alt="recipe image">
+        <h1 class="display-4 fst-italic">{{ recipe.name }}</h1>
+        <p class="lead my-3"> {{ recipe.description }}</p>
+        <h3 class="fst-italic">Potrzebne składniki:</h3>
+        <p class="lead my-3"> {{ recipe.ingredietns }}</p>
+        <h3 class="fst-italic">Sposób przygotowania:</h3>
+        <p class="lead my-3"> {{ recipe.preparation }}</p>
+        <h3 class="fst-italic">Makroskładniki:</h3>
+        <p class="lead my-3"> Białko: {{ recipe.proteins }} g</p>
+        <p class="lead my-3"> Węglowodany: {{ recipe.carbs }} g</p>
+        <p class="lead my-3"> Tłuszcze: {{ recipe.fats }} g</p>
+        <h3 class="fst-italic">Kalorie:</h3>
+        <p class="lead my-3"> {{ recipe.kcal }} kcal</p>
+
+
+    </div>
+{% endblock %}

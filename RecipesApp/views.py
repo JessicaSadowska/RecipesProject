@@ -119,6 +119,19 @@ class Recipes(View):
         )
 
 
+class RecipeDetail(View):
+    def get(self, request, recipe_id):
+        recipe = Recipe.objects.get(id=recipe_id)
+
+        return render(
+            request,
+            'recipe_detail.html',
+            context={
+                'recipe': recipe
+            }
+        )
+
+
 @method_decorator(login_required, name='dispatch')
 class AddRecipe(generic.CreateView):
     model = Recipe

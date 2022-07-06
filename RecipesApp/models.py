@@ -10,7 +10,7 @@ class Allergen(models.Model):
 
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(max_length=100)
     ingredients = models.TextField()
     preparation = models.TextField()
     kcal = models.IntegerField()
@@ -18,6 +18,6 @@ class Recipe(models.Model):
     carbs = models.IntegerField()
     fats = models.IntegerField()
     allergens = models.ManyToManyField(Allergen, related_name="list_of_allergens", default=None)
-    image = models.ImageField(null=True)
+    image = models.ImageField(default='../static/brakzdjecia.png')
 
 

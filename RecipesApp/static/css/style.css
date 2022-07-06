@@ -70,3 +70,19 @@
     position: relative;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
 }
+
+.recipe-image {
+    width: 100px;
+    height: 100px;
+}
+
+.book {
+  background: #fff;
+  margin: 40px auto;
+  padding: 50px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  color: #555;
+  max-width: 800px;
+  line-height: 1.4em;
+  border-radius: 25px;
+}
