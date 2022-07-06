@@ -8,6 +8,11 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+class MainPage(View):
+    def get(self, request):
+        return render(request, 'base.html')
+
+
 class Register(View):
     def get(self, request):
         form = forms.RegisterForm()
