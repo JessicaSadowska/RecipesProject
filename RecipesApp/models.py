@@ -17,6 +17,6 @@ class Recipe(models.Model):
     carbs = models.IntegerField()
     fats = models.IntegerField()
     allergens = models.ManyToManyField(Allergen, related_name="list_of_allergens", default=None)
-    image = models.ImageField()
+    image = models.ImageField(null=True)
 
 

@@ -5,7 +5,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Zaloguj">
+        <input type="submit" value="Zaloguj" class="btn btn-light">
     </form>
-    
+    <p>Nie masz jeszcze konta? <a class="py-2 d-none d-md-inline-block" href="/register/"><button class="btn btn-light">Zarejestruj się!</button></a></p>
 {% endblock %}
