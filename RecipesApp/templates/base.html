@@ -5,7 +5,7 @@
         <meta charset="utf-8">
     </head>
     <header>
-        <img src="{% static 'logo.png' %}">
+        <img src="{% static 'logo.png' %}" width="150" height="150">
         <br/>
         {% if user.is_authenticated %}
             <a href="/logout/"><button>Wyloguj</button></a>
@@ -14,7 +14,6 @@
         {% endif %}
     </header>
     <body {% if color %}style="background-color:{{ color }};"{% endif %}>
-        <h1>Szkoła podstawowa nr 1 im. Chucka Norrisa.</h1>
         {% block body %}
               {% if user.is_authenticated %}
                   <a href="/recipes/add/"><button>Dodaj przepis</button></a>

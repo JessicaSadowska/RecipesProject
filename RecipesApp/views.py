@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
-from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_list_or_404
+from django.utils.decorators import method_decorator
+from django.views import View, generic
 from RecipesApp import forms
 from django.contrib.auth.models import User
+from .models import *
 
 
 class Register(View):
@@ -99,8 +102,29 @@ class Logout(View):
 
 
 class Recipes(View):
-    pass
+    def get(self, request):
+        recipes = get_list_or_404(Recipe)
+
+        return render(
+            request,
+            'recipes_list.html',
+            context={
+                'recipes': recipes
+            }
+        )
 
 
-class AddRecipe(View):
-    pass
+@method_decorator(login_required, name='dispatch')
+class AddRecipe(generic.CreateView):
+    model = Recipe
+    fields = "__all__"
+    success_url = '/recipes/'
+    template_name = 'add_recipe.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class AddAllergen(generic.CreateView):
+    model = Allergen
+    fields = "__all__"
+    success_url = '/recipes/'
+    template_name = 'add_allergen.html'
