@@ -10,8 +10,9 @@ class Allergen(models.Model):
 
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
-    ingredients = models.TextField()
     description = models.TextField()
+    ingredients = models.TextField()
+    preparation = models.TextField()
     kcal = models.IntegerField()
     proteins = models.IntegerField()
     carbs = models.IntegerField()
