@@ -148,6 +148,14 @@ class DeleteRecipe(generic.DeleteView):
 
 
 @method_decorator(login_required, name='dispatch')
+class UpdateRecipe(generic.UpdateView):
+    model = Recipe
+    fields = "__all__"
+    template_name = 'update_recipe.html'
+    success_url = '/recipes/'
+
+
+@method_decorator(login_required, name='dispatch')
 class AddAllergen(generic.CreateView):
     model = Allergen
     fields = "__all__"

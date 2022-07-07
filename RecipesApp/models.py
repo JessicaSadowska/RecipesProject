@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -19,5 +20,6 @@ class Recipe(models.Model):
     fats = models.IntegerField()
     allergens = models.ManyToManyField(Allergen, related_name="list_of_allergens", default=None)
     image = models.ImageField(default='../static/brakzdjecia.png')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

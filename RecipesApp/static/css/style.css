@@ -72,7 +72,7 @@
 }
 
 .recipe-image {
-    width: 100px;
+    width: 150px;
     height: 100px;
 }
 
@@ -85,4 +85,19 @@
   max-width: 800px;
   line-height: 1.4em;
   border-radius: 25px;
+}
+
+.txtlink:link {
+    text-decoration: none;
+    color: black;
+}
+
+.txtlink:visited {
+    text-decoration: none;
+    color: black;
+}
+
+#addrecipe {
+    display: flex;
+    justify-content: center;
 }

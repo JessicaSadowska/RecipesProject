@@ -17,7 +17,7 @@
         <a class="py-2" href="//127.0.0.1:8000/" aria-label="Product">
           <img src="{% static 'logooo.png' %}" width="100" height="100">
         </a>
-        <a class="py-2 d-none d-md-inline-block" href="recipes/">Przepisy</a>
+        <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/recipes/">Przepisy</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Kategorie</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Diety</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Galeria</a>
@@ -35,7 +35,7 @@
 
    <div id="mainpicture" class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
     <div class="col-md-5 p-lg-5 mx-auto my-5">
-      <h1 id="mainpageh1" class="display-4 fw-normal" style="color: rgba(0, 0, 0, 1)">Odkryj nasze przepisy!</h1>
+      <a href="//127.0.0.1:8000/recipes/" class="txtlink"><h1 id="mainpageh1" class="display-4 fw-normal" style="color: rgba(0, 0, 0, 1)">Odkryj nasze przepisy!</h1></a>
         {% if user.is_authenticated %}
       <p id="addrecipebutton" class="lead fw-normal"><a href="/recipes/add/"><button class="btn btn-light">Jesteś już zalogowany? Dodaj nowy przepis!</button></a></p>
         {% endif %}
