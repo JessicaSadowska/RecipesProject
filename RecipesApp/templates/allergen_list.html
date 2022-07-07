@@ -1,1 +1,13 @@
-tu bedzie lista alergenow
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="book ">
+    <h1 class="display-4 fst-italic">Lista alergenów:</h1>
+    <ul>
+    {% for allergen in allergens %}
+            <li><p class="lead my-3"> <a class="no-underline" href="#">{{ allergen.name }}</a> <a class="btn btn-danger" href="//127.0.0.1:8000/allergen/delete/{{ allergen.id }}/">Usuń alergen</a></p></li>
+    {% endfor %}
+    </ul>
+    <a class="btn btn-success" href="//127.0.0.1:8000/allergen/add/">Dodaj alergen</a>
+    </div>
+{% endblock %}

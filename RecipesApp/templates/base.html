@@ -18,7 +18,7 @@
           <img src="{% static 'logooo.png' %}" width="100" height="100">
         </a>
         <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/recipes/">Przepisy</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Kategorie</a>
+        <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/category/">Kategorie</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Diety</a>
         <a class="py-2 d-none d-md-inline-block" href="#">Galeria</a>
 
@@ -27,7 +27,7 @@
             <a class="py-2 d-none d-md-inline-block" href="#">Moje diety</a>
             {% if user.is_superuser %}
             <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/category/add/"><button class="btn btn-success">Dodaj kategorię</button></a>
-            <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/allergen/"><button class="btn btn-success">Dodaj alergen</button></a>
+            <a class="py-2 d-none d-md-inline-block" href="//127.0.0.1:8000/allergen/add/"><button class="btn btn-success">Dodaj alergen</button></a>
         {% endif %}
             <a class="py-2 d-none d-md-inline-block" href="/logout/"><button class="btn btn-light">Wyloguj</button></a>
         {% else %}

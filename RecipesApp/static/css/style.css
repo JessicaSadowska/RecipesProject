@@ -101,3 +101,13 @@
     display: flex;
     justify-content: center;
 }
+
+.no-underline:link {
+    text-decoration: none;
+    color: black;
+}
+
+.no-underline:visited {
+    text-decoration: none;
+    color: black;
+}

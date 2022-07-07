@@ -154,7 +154,6 @@ class UpdateRecipe(generic.UpdateView):
     template_name = 'update_recipe.html'
     success_url = '/recipes/'
 
-
 @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Allergens(View):
     def get(self, request):
@@ -168,7 +167,8 @@ class Allergens(View):
             }
         )
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class AddAllergen(generic.CreateView):
     model = Allergen
     fields = "__all__"
@@ -177,6 +177,12 @@ class AddAllergen(generic.CreateView):
 
 
 @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+class DeleteAllergen(generic.DeleteView):
+    model = Allergen
+    success_url = '/allergen/'
+    template_name = 'delete_allergen.html'
+
+
 class Categories(View):
     def get(self, request):
         categories = get_list_or_404(Category)
@@ -196,3 +202,14 @@ class AddCategory(generic.CreateView):
     fields = "__all__"
     success_url = '/category/'
     template_name = 'add_category.html'
+
+
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+class DeleteCategory(generic.DeleteView):
+    model = Category
+    success_url = '/category/'
+    template_name = 'delete_category.html'
+
+
+class RecipesInCategory(View):
+    def get(self, request, category_id):

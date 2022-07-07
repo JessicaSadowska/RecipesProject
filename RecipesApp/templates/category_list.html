@@ -1,1 +1,15 @@
-tu bedzie lista kategorii
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="book ">
+    <h1 class="display-4 fst-italic">Lista kategorii:</h1>
+    <ul>
+    {% for category in categories %}
+            <li><p class="lead my-3"> <a class="no-underline" href="#">{{ category.name }}</a> {% if user.is_superuser %} <a class="btn btn-danger" href="//127.0.0.1:8000/category/delete/{{ category.id }}/">Usuń kategorię</a>{% endif %}</p></li>
+    {% endfor %}
+     </ul>
+    {% if user.is_superuser %}
+    <a class="btn btn-success" href="//127.0.0.1:8000/category/add/">Dodaj kategorię</a>
+    {% endif %}
+    </div>
+{% endblock %}
