@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import View, generic
@@ -155,9 +155,44 @@ class UpdateRecipe(generic.UpdateView):
     success_url = '/recipes/'
 
 
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+class Allergens(View):
+    def get(self, request):
+        allergens = get_list_or_404(Allergen)
+
+        return render(
+            request,
+            'allergen_list.html',
+            context={
+                'allergens': allergens
+            }
+        )
+
 @method_decorator(login_required, name='dispatch')
 class AddAllergen(generic.CreateView):
     model = Allergen
     fields = "__all__"
-    success_url = '/recipes/'
+    success_url = '/allergen/'
     template_name = 'add_allergen.html'
+
+
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+class Categories(View):
+    def get(self, request):
+        categories = get_list_or_404(Category)
+
+        return render(
+            request,
+            'category_list.html',
+            context={
+                'categories': categories
+            }
+        )
+
+
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+class AddCategory(generic.CreateView):
+    model = Category
+    fields = "__all__"
+    success_url = '/category/'
+    template_name = 'add_category.html'

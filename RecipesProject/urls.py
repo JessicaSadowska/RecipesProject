@@ -13,5 +13,8 @@ urlpatterns = [
     path('recipes/add/', AddRecipe.as_view(), name='add_recipe'),
     path('recipes/delete/<int:pk>/', DeleteRecipe.as_view(), name='delete_recipe'),
     path('recipes/update/<int:pk>/', UpdateRecipe.as_view(), name='update_recipe'),
+    path('allergen/', Allergens.as_view(), name='allergens'),
     path('allergen/add/', AddAllergen.as_view(), name='add_allergen'),
+    path('category/', Categories.as_view(), name='categories'),
+    path('category/add/', AddCategory.as_view(), name='add_category'),
 ]
