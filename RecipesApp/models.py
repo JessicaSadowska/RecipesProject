@@ -9,6 +9,13 @@ class Allergen(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=100)
@@ -19,6 +26,7 @@ class Recipe(models.Model):
     carbs = models.IntegerField()
     fats = models.IntegerField()
     allergens = models.ManyToManyField(Allergen, related_name="list_of_allergens", default=None)
+    category = models.ManyToManyField(Category, related_name="category", default=None)
     image = models.ImageField(default='../static/brakzdjecia.png')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
