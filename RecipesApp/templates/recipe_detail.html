@@ -15,6 +15,7 @@
         <p class="lead my-3"> Tłuszcze: {{ recipe.fats }} g</p>
         <h3 class="fst-italic">Kalorie:</h3>
         <p class="lead my-3"> {{ recipe.kcal }} kcal</p>
+        <h6 class="fst-italic">Alergeny: {% for allergen in allergens %}{{ allergen.name }} {% empty %}brak{% endfor %}</h6>
         <h6 class="fst-italic">Dodano przez: {{ recipe.author.username }}</h6>
         {% if recipe.author.id ==  user.id %}
             <p class="lead fw-normal"><a href="//127.0.0.1:8000/recipes/update/{{ recipe.id }}/"><button class="btn btn-light">Edytuj przepis</button></a><a href="//127.0.0.1:8000/recipes/delete/{{ recipe.id }}/"><button class="btn btn-danger">Usuń przepis</button></a></p>

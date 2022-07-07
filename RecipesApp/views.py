@@ -122,12 +122,14 @@ class Recipes(View):
 class RecipeDetail(View):
     def get(self, request, recipe_id):
         recipe = Recipe.objects.get(id=recipe_id)
+        allergens = recipe.allergens.all()
 
         return render(
             request,
             'recipe_detail.html',
             context={
-                'recipe': recipe
+                'recipe': recipe,
+                'allergens': allergens
             }
         )
 
@@ -213,3 +215,20 @@ class DeleteCategory(generic.DeleteView):
 
 class RecipesInCategory(View):
     def get(self, request, category_id):
+        category = Category.objects.get(id=category_id)
+        recipes_in_category = get_list_or_404(Recipe.objects.filter(category=category))
+
+
+        return render(
+            request,
+            'recipes_in_category_list.html',
+            context={
+                'recipes': recipes_in_category,
+                'category': category,
+            }
+        )
+
+
+
+
+

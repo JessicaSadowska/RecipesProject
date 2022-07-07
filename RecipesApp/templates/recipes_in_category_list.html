@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h3 class="display-4 fst-italic">Przepisy w kategorii <strong>{{ category.name }}</strong>:</h3>
+    {% if user.is_authenticated %}
+    <p id="addrecipe" class="lead fw-normal"><a href="/recipes/add/"><button class="btn btn-light">Dodaj nowy przepis</button></a></p>
+    {% endif %}
+    {% for recipe in recipes %}
+        <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 fst-italic">{{ recipe.name }}</h1>
+                <p class="lead my-3"> {{ recipe.description }}</p>
+                <p class="lead mb-0"><a href="{{ recipe.id }}" class="text-white fw-bold">Czytaj dalej...</a></p>
+                <img class="recipe-image" src="/../../{{ recipe.image }}" alt="recipe image">
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

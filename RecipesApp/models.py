@@ -25,9 +25,16 @@ class Recipe(models.Model):
     proteins = models.IntegerField()
     carbs = models.IntegerField()
     fats = models.IntegerField()
-    allergens = models.ManyToManyField(Allergen, related_name="list_of_allergens", default=None)
+    allergens = models.ManyToManyField(Allergen, related_name="allergens_list", default=None)
     category = models.ManyToManyField(Category, related_name="category", default=None)
     image = models.ImageField(default='../static/brakzdjecia.png')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Diet(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    kcal = models.IntegerField
+    meals = models.ManyToManyField(Recipe, related_name="meals_list")
 
 
