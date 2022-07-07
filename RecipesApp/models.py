@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.forms import CheckboxSelectMultiple, ModelForm
 
 
 class Allergen(models.Model):
@@ -31,10 +32,22 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
+class RecipeForm(ModelForm):
+
+    class Meta:
+        model = Recipe
+        fields = ("allergens", "category")
+
+    def __init__(self, *args, **kwargs):
+
+        super(RecipeForm, self).__init__(*args, **kwargs)
+
+        self.fields["allergens"].widget = CheckboxSelectMultiple()
+        self.fields["allergens"].queryset = Allergen.objects.all()
+
+
 class Diet(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     kcal = models.IntegerField
     meals = models.ManyToManyField(Recipe, related_name="meals_list")
-
-

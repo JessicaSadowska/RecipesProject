@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from RecipesApp import forms
-from django.contrib.auth.models import User
 from .models import *
 
 
@@ -155,6 +154,56 @@ class UpdateRecipe(generic.UpdateView):
     fields = "__all__"
     template_name = 'update_recipe.html'
     success_url = '/recipes/'
+
+
+class Diets(View):
+    def get(self, request):
+        diets = get_list_or_404(Diet)
+
+        return render(
+            request,
+            'diets_list.html',
+            context={
+                'diets': diets
+            }
+        )
+
+
+class DietDetail(View):
+    def get(self, request, diet_id):
+        diet = Diet.objects.get(id=diet_id)
+
+        return render(
+            request,
+            'diet_detail.html',
+            context={
+                'diet': diet,
+            }
+        )
+
+
+@method_decorator(login_required, name='dispatch')
+class AddDiet(generic.CreateView):
+    model = Diet
+    fields = "__all__"
+    success_url = '/diets/'
+    template_name = 'add_diet.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class DeleteDiet(generic.DeleteView):
+    model = Diet
+    success_url = '/diets/'
+    template_name = 'delete_diet.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class UpdateDiet(generic.UpdateView):
+    model = Diet
+    fields = "__all__"
+    template_name = 'update_diet.html'
+    success_url = '/diets/'
+
 
 @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Allergens(View):
