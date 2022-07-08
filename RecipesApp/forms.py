@@ -2,6 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+from RecipesApp.models import Diet, Recipe
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -29,3 +31,31 @@ class RegisterForm(forms.Form):
         if user:
             raise ValidationError("Podany użytkownik już istnieje")
         return username
+
+
+class AddRecipeForm(forms.ModelForm):
+
+    class Meta:
+        model = Recipe
+        exclude = ('author', )
+        widgets = {
+            'allergens': forms.CheckboxSelectMultiple,
+            'category': forms.CheckboxSelectMultiple,
+        }
+        labels = {
+            'name': 'Nazwa',
+            'description': 'Opis',
+            'ingredients': 'Potrzebne składniki',
+            'preparation': 'Sposób przygotowania',
+            'kcal': 'Kalorie',
+            'proteins': 'Białko',
+            'carbs': 'Węglowodany',
+            'fats': 'Tłuszcze',
+            'allergens': 'Alergeny',
+            'category': 'Kategorie',
+            'image': 'Zdjęcie'
+
+        }
+        field_classes = {
+
+        }

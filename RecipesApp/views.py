@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from RecipesApp import forms
+from .forms import AddRecipeForm
 from .models import *
 
 
@@ -136,9 +137,13 @@ class RecipeDetail(View):
 @method_decorator(login_required, name='dispatch')
 class AddRecipe(generic.CreateView):
     model = Recipe
-    fields = "__all__"
+    form_class = AddRecipeForm
     success_url = '/recipes/'
     template_name = 'add_recipe.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -172,12 +177,14 @@ class Diets(View):
 class DietDetail(View):
     def get(self, request, diet_id):
         diet = Diet.objects.get(id=diet_id)
+        recipes = diet.meals.all()
 
         return render(
             request,
             'diet_detail.html',
             context={
                 'diet': diet,
+                'recipes': recipes,
             }
         )
 
@@ -267,7 +274,6 @@ class RecipesInCategory(View):
         category = Category.objects.get(id=category_id)
         recipes_in_category = get_list_or_404(Recipe.objects.filter(category=category))
 
-
         return render(
             request,
             'recipes_in_category_list.html',
@@ -276,7 +282,6 @@ class RecipesInCategory(View):
                 'category': category,
             }
         )
-
 
 
 

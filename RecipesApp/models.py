@@ -26,24 +26,13 @@ class Recipe(models.Model):
     proteins = models.IntegerField()
     carbs = models.IntegerField()
     fats = models.IntegerField()
-    allergens = models.ManyToManyField(Allergen, related_name="allergens_list", default=None)
-    category = models.ManyToManyField(Category, related_name="category", default=None)
+    allergens = models.ManyToManyField(Allergen, related_name="allergens_list", default=None, blank=True)
+    category = models.ManyToManyField(Category, related_name="category", default=None, blank=True)
     image = models.ImageField(default='../static/brakzdjecia.png')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
-class RecipeForm(ModelForm):
-
-    class Meta:
-        model = Recipe
-        fields = ("allergens", "category")
-
-    def __init__(self, *args, **kwargs):
-
-        super(RecipeForm, self).__init__(*args, **kwargs)
-
-        self.fields["allergens"].widget = CheckboxSelectMultiple()
-        self.fields["allergens"].queryset = Allergen.objects.all()
+    def __str__(self):
+        return self.name
 
 
 class Diet(models.Model):
@@ -51,3 +40,4 @@ class Diet(models.Model):
     description = models.TextField()
     kcal = models.IntegerField
     meals = models.ManyToManyField(Recipe, related_name="meals_list")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)

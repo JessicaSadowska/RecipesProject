@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+    <p id="adddiet" class="lead fw-normal"><a href="/diets/add/"><button class="btn btn-light">Dodaj nową dietę</button></a></p>
+    {% endif %}
+    {% for diet in diets %}
+        <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 fst-italic">{{ diet.name }}</h1>
+                <p class="lead my-3"> {{ diet.description }}</p>
+                <p class="lead mb-0"><a href="{{ diet.id }}" class="text-white fw-bold">Czytaj dalej...</a></p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

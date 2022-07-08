@@ -131,6 +131,11 @@
     justify-content: center;
 }
 
+#adddiet {
+    display: flex;
+    justify-content: center;
+}
+
 .no-underline:link {
     text-decoration: none;
     color: black;

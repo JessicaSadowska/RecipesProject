@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="book ">
-        <img class="recipe-image" src="/../../{{ recipe.image }}" alt="recipe image">
+        <img class="recipe-image" src="{{ recipe.image }}" alt="Zdjęcie potrawy">
         <h1 class="display-4 fst-italic">{{ recipe.name }}</h1>
         <p class="lead my-3"> {{ recipe.description }}</p>
         <h3 class="fst-italic">Potrzebne składniki:</h3>

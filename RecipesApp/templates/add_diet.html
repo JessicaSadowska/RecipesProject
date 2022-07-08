@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="book ">
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-light" value="Zapisz">
+    </form>
+    </div>
+{% endblock %}
