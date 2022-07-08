@@ -42,3 +42,18 @@ class Diet(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Opinion(models.Model):
+    RATINGS = (
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5"),
+    )
+
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    rating = models.IntegerField(choices=RATINGS)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
