@@ -2,9 +2,10 @@
 
 {% block body %}
     <div class="book ">
+    <h3 class="display-4 fst-italic">Stwórz nową dietę:</h3>
     <form method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" class="btn btn-light" value="Zapisz">
     </form>
     </div>

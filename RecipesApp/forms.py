@@ -6,17 +6,17 @@ from RecipesApp.models import Diet, Recipe
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(label='Nazwa użytkownika')
+    password = forms.CharField(widget=forms.PasswordInput, label='Hasło')
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
+    username = forms.CharField(label='Nazwa użytkownika')
+    password = forms.CharField(widget=forms.PasswordInput, label='Hasło')
+    password2 = forms.CharField(widget=forms.PasswordInput, label='Powtórz hasło')
+    first_name = forms.CharField(label='Imię')
+    last_name = forms.CharField(label='Nazwisko')
+    email = forms.EmailField(label='e-mail')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -56,6 +56,19 @@ class AddRecipeForm(forms.ModelForm):
             'image': 'Zdjęcie'
 
         }
-        field_classes = {
 
+
+class AddDietForm(forms.ModelForm):
+
+    class Meta:
+        model = Diet
+        exclude = ('author', 'kcal')
+        widgets = {
+            'meals': forms.CheckboxSelectMultiple,
         }
+        labels = {
+            'name': 'Nazwa',
+            'description': 'Opis',
+            'meals': 'Lista posiłków',
+        }
+

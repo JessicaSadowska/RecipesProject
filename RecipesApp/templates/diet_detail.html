@@ -2,6 +2,13 @@
 
 {% block body %}
     <div class="book ">
+    <h1 class=" fst-italic">{{ diet.name }}</h1>
+        <h3 class=" fst-italic">Kalorie: </h3>
+        <p>{{ kcal }} kcal</p>
+        <h3 class=" fst-italic">Makroskładniki:</h3>
+        <p>Białko: {{ proteins }} g</p>
+        <p>Węglowodany: {{ carbs }} g</p>
+        <p>Tłuszcze: {{ fats }} g</p>
     <ul>
     {% for recipe in recipes %}
         <li>
@@ -9,13 +16,12 @@
         </li>
         <p class="lead my-3"> {{ recipe.description }}</p>
         <img class="recipe-image" src="/../../{{ recipe.image }}" alt="recipe image">
-
-
     {% endfor %}
     </ul>
-        <h6 class="fst-italic">Dodano przez: {{ recipe.author.username }}</h6>
-        {% if recipe.author.id ==  user.id %}
-            <p class="lead fw-normal"><a href="//127.0.0.1:8000/recipes/update/{{ recipe.id }}/"><button class="btn btn-light">Edytuj przepis</button></a><a href="//127.0.0.1:8000/recipes/delete/{{ recipe.id }}/"><button class="btn btn-danger">Usuń przepis</button></a></p>
+
+        <h6 class="fst-italic">Dodano przez: {{ diet.author.username }}</h6>
+        {% if diet.author.id ==  user.id %}
+            <p class="lead fw-normal"><a href="//127.0.0.1:8000/diets/update/{{ diet.id }}/"><button class="btn btn-light">Edytuj dietę</button></a><a href="//127.0.0.1:8000/diets/delete/{{ diet.id }}/"><button class="btn btn-danger">Usuń dietę</button></a></p>
         {% endif %}
     </div>
 {% endblock %}

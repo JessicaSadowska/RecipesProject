@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_list_or_404
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from RecipesApp import forms
-from .forms import AddRecipeForm
+from .forms import AddRecipeForm, AddDietForm
 from .models import *
 
 
@@ -75,7 +75,7 @@ class Login(View):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                msg = "Zalogowano"
+                msg = "Zalogowano!"
             else:
                 msg = "Niepoprawne dane logowania"
 
@@ -156,7 +156,7 @@ class DeleteRecipe(generic.DeleteView):
 @method_decorator(login_required, name='dispatch')
 class UpdateRecipe(generic.UpdateView):
     model = Recipe
-    fields = "__all__"
+    form_class = AddRecipeForm
     template_name = 'update_recipe.html'
     success_url = '/recipes/'
 
@@ -178,6 +178,16 @@ class DietDetail(View):
     def get(self, request, diet_id):
         diet = Diet.objects.get(id=diet_id)
         recipes = diet.meals.all()
+        kcal = 0
+        proteins = 0
+        carbs = 0
+        fats = 0
+
+        for recipe in recipes:
+            kcal += recipe.kcal
+            proteins += recipe.proteins
+            carbs += recipe.carbs
+            fats += recipe.fats
 
         return render(
             request,
@@ -185,6 +195,10 @@ class DietDetail(View):
             context={
                 'diet': diet,
                 'recipes': recipes,
+                'kcal': kcal,
+                'proteins': proteins,
+                'carbs': carbs,
+                'fats': fats,
             }
         )
 
@@ -192,9 +206,13 @@ class DietDetail(View):
 @method_decorator(login_required, name='dispatch')
 class AddDiet(generic.CreateView):
     model = Diet
-    fields = "__all__"
+    form_class = AddDietForm
     success_url = '/diets/'
     template_name = 'add_diet.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -207,7 +225,7 @@ class DeleteDiet(generic.DeleteView):
 @method_decorator(login_required, name='dispatch')
 class UpdateDiet(generic.UpdateView):
     model = Diet
-    fields = "__all__"
+    form_class = AddDietForm
     template_name = 'update_diet.html'
     success_url = '/diets/'
 
@@ -284,5 +302,29 @@ class RecipesInCategory(View):
         )
 
 
+class MyRecipes(View):
+    def get(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        user_recipes = user.recipe_set.all()
+
+        return render(
+            request,
+            'recipes_list.html',
+            context={
+                'recipes': user_recipes
+            }
+        )
 
 
+class MyDiets(View):
+    def get(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        user_diets = user.diet_set.all()
+
+        return render(
+            request,
+            'diets_list.html',
+            context={
+                'diets': user_diets
+            }
+        )

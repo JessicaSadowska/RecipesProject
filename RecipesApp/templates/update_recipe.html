@@ -2,7 +2,8 @@
 
 {% block body %}
     <div class="book ">
-    <form method="post">
+    <h3 class="display-4 fst-italic">Edytuj przepis:</h3>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="btn btn-light" value="Edytuj">

@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="book ">
+    <h3 class="display-4 fst-italic">Edytuj dietę:</h3>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

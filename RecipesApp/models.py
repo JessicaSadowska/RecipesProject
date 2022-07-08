@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.forms import CheckboxSelectMultiple, ModelForm
 
 
 class Allergen(models.Model):
@@ -38,6 +37,8 @@ class Recipe(models.Model):
 class Diet(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    kcal = models.IntegerField
     meals = models.ManyToManyField(Recipe, related_name="meals_list")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
