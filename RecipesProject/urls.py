@@ -27,4 +27,7 @@ urlpatterns = [
     path('category/add/', AddCategory.as_view(), name='add_category'),
     path('category/delete/<int:pk>/', DeleteCategory.as_view(), name='delete_category'),
     path('category/recipes/<int:category_id>/', RecipesInCategory.as_view(), name='recipes_in_category'),
+    path('opinion/add/<int:recipe_id>/', AddOpinion.as_view(), name='add_opinion'),
+    path('opinion/delete/<int:pk>/', DeleteOpinion.as_view(), name='delete_opinion'),
+    path('opinion/update/<int:pk>/', UpdateOpinion.as_view(), name='update_opinion'),
 ]

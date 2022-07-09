@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
+    <div class="book">
     <p>Czy na pewno chcesz usunąć tę dietę?</p>
     <form method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" class="btn btn-light" value="Usuń">
-        <a href="/recipes/"><input type="button" class="btn btn-light" value="Anuluj"></a>
+        <input type="submit" class="btn btn-danger" value="Usuń">
+        <a href="/diets/"><input type="button" class="btn btn-light" value="Anuluj"></a>
     </form>
+    </div>
 {% endblock %}

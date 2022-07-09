@@ -18,7 +18,7 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(max_length=100)
+    description = models.TextField(max_length=255)
     ingredients = models.TextField()
     preparation = models.TextField()
     kcal = models.IntegerField()
@@ -57,3 +57,4 @@ class Opinion(models.Model):
     content = models.TextField()
     rating = models.IntegerField(choices=RATINGS)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

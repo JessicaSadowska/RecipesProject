@@ -26,6 +26,28 @@
         <h6 class="fst-italic">Dodano przez: {{ recipe.author.username }}</h6>
         {% if recipe.author.id ==  user.id %}
             <p class="lead fw-normal"><a href="//127.0.0.1:8000/recipes/update/{{ recipe.id }}/"><button class="btn btn-light">Edytuj przepis</button></a><a href="//127.0.0.1:8000/recipes/delete/{{ recipe.id }}/"><button class="btn btn-danger">Usuń przepis</button></a></p>
+        {% else %}
+            <p class="lead fw-normal"><a href="//127.0.0.1:8000/opinion/add/{{ recipe.id }}/"><button class="btn btn-light">Dodaj opinię</button></a></p>
         {% endif %}
     </div>
+    {% if opinions %}
+        <div class="book" style="background-color: #adb5bd; box-shadow: none; height: 40px" >
+        <p id="centerh1" class="display-4 fst-italic">Opinie:</p>
+        </div>
+    {% endif %}
+    {% for opinion in opinions %}
+        <div class="book" style="background-color: #D3D3D3">
+            <h3 class="fst-italic"> {{ opinion.title }} </h3>
+            <h6 class="fst-italic">Dodane przez: {{ opinion.author.username }} </h6>
+            <h6 class="fst-italic">Ocena: {{ opinion.rating }} </h6>
+            <p class="lead my-3"> {{ opinion.content }}</p>
+            {% if opinion.author.id ==  user.id %}
+            <p class="lead fw-normal"><a href="//127.0.0.1:8000/opinion/update/{{ opinion.id }}/"><button class="btn btn-light">Edytuj opinię</button></a><a href="//127.0.0.1:8000/opinion/delete/{{ opinion.id }}/"><button class="btn btn-danger">Usuń opinię</button></a></p>
+            {% endif %}
+        </div>
+        {% empty %}
+         <div class="book" style="background-color: #D3D3D3">
+        <p>Ten przepis nie ma jeszcze żadnych opinii</p>
+         </div>
+    {% endfor %}
 {% endblock %}

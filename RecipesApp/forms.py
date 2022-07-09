@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
-from RecipesApp.models import Diet, Recipe
+from RecipesApp.models import Diet, Recipe, Opinion
 
 
 class LoginForm(forms.Form):
@@ -72,3 +72,14 @@ class AddDietForm(forms.ModelForm):
             'meals': 'Lista posiłków',
         }
 
+
+class AddOpinionForm(forms.ModelForm):
+
+    class Meta:
+        model = Opinion
+        exclude = ('author', 'recipe')
+        labels = {
+            'title': 'Tytuł',
+            'content': 'Treść',
+            'rating': 'Ocena',
+        }

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="book ">
+    <h3 class="display-4 fst-italic">Edytuj opinię:</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-light" value="Edytuj">
+    </form>
+    </div>
+{% endblock %}

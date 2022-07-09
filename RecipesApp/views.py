@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from RecipesApp import forms
-from .forms import AddRecipeForm, AddDietForm
+from .forms import AddRecipeForm, AddDietForm, AddOpinionForm
 from .models import *
 
 
@@ -123,13 +124,15 @@ class RecipeDetail(View):
     def get(self, request, recipe_id):
         recipe = Recipe.objects.get(id=recipe_id)
         allergens = recipe.allergens.all()
+        opinions = recipe.opinion_set.all()
 
         return render(
             request,
             'recipe_detail.html',
             context={
                 'recipe': recipe,
-                'allergens': allergens
+                'allergens': allergens,
+                'opinions': opinions,
             }
         )
 
@@ -302,6 +305,7 @@ class RecipesInCategory(View):
         )
 
 
+@method_decorator(login_required, name='dispatch')
 class MyRecipes(View):
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
@@ -316,6 +320,7 @@ class MyRecipes(View):
         )
 
 
+@method_decorator(login_required, name='dispatch')
 class MyDiets(View):
     def get(self, request, user_id):
         user = User.objects.get(id=user_id)
@@ -328,3 +333,50 @@ class MyDiets(View):
                 'diets': user_diets
             }
         )
+
+
+@method_decorator(login_required, name='dispatch')
+class AddOpinion(generic.CreateView):
+    model = Opinion
+    form_class = AddOpinionForm
+    template_name = 'add_opinion.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.recipe = get_object_or_404(Recipe, pk=kwargs['recipe_id'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.recipe = self.recipe
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        recipe_id = self.kwargs["recipe_id"]
+        return reverse("recipe_detail", kwargs={"recipe_id": recipe_id})
+
+
+@method_decorator(login_required, name='dispatch')
+class DeleteOpinion(generic.DeleteView):
+    model = Opinion
+    template_name = 'delete_opinion.html'
+
+    def get_success_url(self):
+        opinion_id = self.kwargs["pk"]
+        opinion = Opinion.objects.get(id=opinion_id)
+        recipe_id = opinion.recipe.id
+        return reverse("recipe_detail", kwargs={"recipe_id": recipe_id})
+
+
+@method_decorator(login_required, name='dispatch')
+class UpdateOpinion(generic.UpdateView):
+    model = Opinion
+    form_class = AddOpinionForm
+    template_name = 'update_opinion.html'
+
+    def get_success_url(self):
+        opinion_id = self.kwargs["pk"]
+        opinion = Opinion.objects.get(id=opinion_id)
+        recipe_id = opinion.recipe.id
+        return reverse("recipe_detail", kwargs={"recipe_id": recipe_id})
+
+
