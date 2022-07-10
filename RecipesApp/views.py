@@ -148,6 +148,9 @@ class AddRecipe(generic.CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
 
 @method_decorator(login_required, name='dispatch')
 class DeleteRecipe(generic.DeleteView):
@@ -233,7 +236,7 @@ class UpdateDiet(generic.UpdateView):
     success_url = '/diets/'
 
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class Allergens(View):
     def get(self, request):
         allergens = get_list_or_404(Allergen)
@@ -247,7 +250,7 @@ class Allergens(View):
         )
 
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class AddAllergen(generic.CreateView):
     model = Allergen
     fields = "__all__"
@@ -255,7 +258,7 @@ class AddAllergen(generic.CreateView):
     template_name = 'add_allergen.html'
 
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class DeleteAllergen(generic.DeleteView):
     model = Allergen
     success_url = '/allergen/'
@@ -275,7 +278,7 @@ class Categories(View):
         )
 
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class AddCategory(generic.CreateView):
     model = Category
     fields = "__all__"
@@ -283,7 +286,7 @@ class AddCategory(generic.CreateView):
     template_name = 'add_category.html'
 
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class DeleteCategory(generic.DeleteView):
     model = Category
     success_url = '/category/'

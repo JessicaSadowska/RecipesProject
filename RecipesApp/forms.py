@@ -62,7 +62,7 @@ class AddDietForm(forms.ModelForm):
 
     class Meta:
         model = Diet
-        exclude = ('author', 'kcal')
+        exclude = ('author',)
         widgets = {
             'meals': forms.CheckboxSelectMultiple,
         }
