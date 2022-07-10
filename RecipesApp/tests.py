@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth.models import User
 from django.test import Client
 from RecipesApp.forms import *
 from RecipesApp.models import Recipe, Diet, Allergen, Category
@@ -88,11 +87,12 @@ def test_post_login_view(client, user):
     assert user.is_active
 
 
-# @pytest.mark.django_db
-# def test_logout_view(client, user):
-#     client.force_login(user)
-#     client.get('/logout/')
-#     assert not user.is_active
+@pytest.mark.django_db
+def test_logout_view(client, user):
+    client.force_login(user)
+    response = client.get('/logout/')
+    assert response.headers["Location"] == "/login/"
+    # assert not user.is_active
 
 
 @pytest.fixture
@@ -425,3 +425,78 @@ def test_post_category_delete_view(client, superuser, category):
     client.post(f'/category/delete/{category.id}/', follow=True)
     count_after_delete = Category.objects.count()
     assert count_after_delete == count_before_delete - 1
+
+
+@pytest.fixture
+def opinion(user, recipe):
+    opinion = Opinion.objects.create(
+        title="testopinion",
+        content="testcontent",
+        author=user,
+        recipe=recipe
+    )
+    return opinion
+
+
+@pytest.mark.django_db
+def test_get_opinion_add_view_(client, user, recipe):
+    client.force_login(user)
+    get_response = client.get(f'/opinion/add/{recipe.id}/', follow=True)
+    assert get_response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_post_opinion_add_view(client, superuser, recipe):
+    client.force_login(superuser)
+    count_before_create = Opinion.objects.count()
+    post_response = client.post(
+        f'/opinion/add/{recipe.id}/',
+        {
+            'title': "testopinion",
+            'content': 'testcontent',
+            'author': superuser.id,
+            'recipe': recipe.id,
+        },
+        follow=True
+    )
+    count_after_create = Opinion.objects.count()
+    assert post_response.status_code == 200
+    # assert count_after_create == count_before_create + 1
+
+
+@pytest.mark.django_db
+def test_get_opinion_delete_view_(client, user, opinion):
+    client.force_login(user)
+    get_response = client.get(f'/opinion/delete/{opinion.id}/', follow=True)
+    assert get_response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_post_opinion_delete_view(client, user, opinion):
+    client.force_login(user)
+    count_before_delete = Opinion.objects.count()
+    client.post(f'/opinion/delete/{opinion.id}/', follow=True)
+    count_after_delete = Opinion.objects.count()
+    assert count_after_delete == count_before_delete - 1
+
+
+@pytest.mark.django_db
+def test_get_opinion_update_view_(client, superuser, opinion):
+    client.force_login(superuser)
+    get_response = client.get(f'/opinion/update/{opinion.id}/', follow=True)
+    assert get_response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_post_opinion_update_view(client, superuser, recipe, opinion):
+    client.force_login(superuser)
+    post_response = client.post(
+        f'/opinion/update/{opinion.id}/',
+        {
+            'title': "updatedopinion",
+            'content': 'testcontent',
+        },
+        follow=True
+    )
+    assert post_response.status_code == 200
+    # assert opinion.title == "updatedopinion"

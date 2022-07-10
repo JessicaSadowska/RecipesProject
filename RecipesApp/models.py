@@ -55,6 +55,6 @@ class Opinion(models.Model):
 
     title = models.CharField(max_length=255)
     content = models.TextField()
-    rating = models.IntegerField(choices=RATINGS)
+    rating = models.IntegerField(choices=RATINGS, default=5)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
