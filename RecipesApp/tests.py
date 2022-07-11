@@ -7,7 +7,7 @@ from RecipesApp.models import Recipe, Diet, Allergen, Category
 @pytest.fixture
 def user():
     """
-    XXX
+    Create user fixture.
     """
     user = User.objects.create(
         username="testuser",
@@ -22,7 +22,7 @@ def user():
 @pytest.fixture
 def client():
     """
-    XXX
+    Create client fixture.
     """
     client = Client()
     return client
@@ -31,7 +31,7 @@ def client():
 @pytest.mark.django_db
 def test_main_page(client):
     """
-    XXX
+    A ``GET`` to the main page view gets status code 200.
     """
     response = client.get('')
     assert response.status_code == 200
@@ -40,9 +40,8 @@ def test_main_page(client):
 @pytest.mark.django_db
 def test_get_register_view(client):
     """
-    A ``GET`` to the ``register`` view uses the appropriate
-    template and populates the registration form into the context.
-
+    A ``GET`` to the ``register`` view populates the registration
+    form into the context and gets status code 200.
     """
     get_response = client.get('/register/')
     # assert get_response.context.get('form') == RegisterForm
@@ -53,8 +52,7 @@ def test_get_register_view(client):
 def test_post_register_view(client):
     """
     A ``POST`` to the ``register`` view with valid data properly
-    creates a new user and issues a redirect.
-
+    creates a new user and gets status code 200.
     """
     count_before_create = User.objects.count()
     post_response = client.post(
@@ -77,7 +75,8 @@ def test_post_register_view(client):
 @pytest.mark.django_db
 def test_get_login_view(client):
     """
-    XXX
+    A ``GET`` to the ``login`` view populates the login
+    form into the context and gets status code 200.
     """
     get_response = client.get('/login/')
     # assert get_response.context.get('form') == LoginForm
@@ -87,7 +86,8 @@ def test_get_login_view(client):
 @pytest.mark.django_db
 def test_post_login_view(client, user):
     """
-    XXX
+    A ``POST`` to the ``login`` view with valid data properly
+    logs in the given user and gets status code 200.
     """
     post_response = client.post(
         '/login/',
@@ -105,7 +105,8 @@ def test_post_login_view(client, user):
 @pytest.mark.django_db
 def test_logout_view(client, user):
     """
-    XXX
+    A ``GET`` to the ``logout`` view properly loges out
+    the given user and gets status code 200.
     """
     client.force_login(user)
     response = client.get('/logout/')
@@ -116,7 +117,7 @@ def test_logout_view(client, user):
 @pytest.fixture
 def recipe(user):
     """
-    XXX
+    Create recipe fixture.
     """
     recipe = Recipe.objects.create(
         name="testrecipe",
@@ -135,7 +136,8 @@ def recipe(user):
 @pytest.mark.django_db
 def test_recipe_list_view(client, recipe):
     """
-    XXX
+    A ``GET`` to the ``recipes`` populates the recipes
+    into the context and gets status code 200.
     """
     response = client.get('/recipes/')
     assert response.context.get('recipes') == [recipe]
@@ -145,7 +147,8 @@ def test_recipe_list_view(client, recipe):
 @pytest.mark.django_db
 def test_recipe_detail_view(client, recipe):
     """
-    XXX
+    A ``GET`` to the ``recipe_detail`` populates the recipe
+    with a given id into the context and gets status code 200.
     """
     response = client.get(f'/recipes/{recipe.id}/')
     assert response.context.get('recipe') == recipe
@@ -155,7 +158,8 @@ def test_recipe_detail_view(client, recipe):
 @pytest.mark.django_db
 def test_get_recipe_add_view_(client, user):
     """
-    XXX
+    A ``GET`` to the ``add_recipe`` for logged in
+    user gets status code 200.
     """
     client.force_login(user)
     get_response = client.get('/recipes/add/', follow=True)
@@ -165,7 +169,8 @@ def test_get_recipe_add_view_(client, user):
 @pytest.mark.django_db
 def test_post_recipe_add_view(client, user):
     """
-    XXX
+    A ``POST`` to the ``add_recipe`` view with valid data properly
+    creates new recipe and gets status code 200.
     """
     client.force_login(user)
     count_before_create = Recipe.objects.count()
@@ -191,7 +196,8 @@ def test_post_recipe_add_view(client, user):
 @pytest.mark.django_db
 def test_get_recipe_delete_view_(client, user, recipe):
     """
-    XXX
+    A ``GET`` to the ``delete_recipe`` for logged in
+    user who created the recipe gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/recipes/delete/{recipe.id}/', follow=True)
@@ -201,7 +207,8 @@ def test_get_recipe_delete_view_(client, user, recipe):
 @pytest.mark.django_db
 def test_post_recipe_delete_view(client, user, recipe):
     """
-    XXX
+    A ``POST`` to the ``delete_recipe`` view properly
+    deletes the given recipe.
     """
     client.force_login(user)
     count_before_delete = Recipe.objects.count()
@@ -213,7 +220,8 @@ def test_post_recipe_delete_view(client, user, recipe):
 @pytest.mark.django_db
 def test_get_recipe_update_view_(client, user, recipe):
     """
-    XXX
+    A ``GET`` to the ``update_recipe`` for logged in
+    user who created the recipe gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/recipes/update/{recipe.id}/', follow=True)
@@ -223,7 +231,8 @@ def test_get_recipe_update_view_(client, user, recipe):
 @pytest.mark.django_db
 def test_post_recipe_update_view(client, user, recipe):
     """
-    XXX
+    A ``POST`` to the ``update_recipe`` view with valid data properly
+    updates the recipe and gets status code 200.
     """
     client.force_login(user)
     post_response = client.post(
@@ -247,7 +256,9 @@ def test_post_recipe_update_view(client, user, recipe):
 @pytest.mark.django_db
 def test_my_recipes_list_view(client, recipe, user):
     """
-    XXX
+    A ``GET`` to the ``my_recipes`` view populates the recipes
+    created by a given user into the context and gets
+    status code 200.
     """
     client.force_login(user)
     response = client.get(f'/recipes/my/{user.id}/')
@@ -258,7 +269,7 @@ def test_my_recipes_list_view(client, recipe, user):
 @pytest.fixture
 def diet(user, recipe):
     """
-    XXX
+    Create diet fixture.
     """
     recipes = Recipe.objects.all()
     diet = Diet.objects.create(
@@ -273,7 +284,8 @@ def diet(user, recipe):
 @pytest.mark.django_db
 def test_diet_list_view(client, diet):
     """
-    XXX
+    A ``GET`` to the ``diets`` populates the diets
+    into the context and gets status code 200.
     """
     response = client.get('/diets/')
     assert response.context.get('diets') == [diet]
@@ -283,7 +295,8 @@ def test_diet_list_view(client, diet):
 @pytest.mark.django_db
 def test_diet_detail_view(client, diet):
     """
-    XXX
+    A ``GET`` to the ``diet_detail`` populates the diet
+    with a given id into the context and gets status code 200.
     """
     response = client.get(f'/diets/{diet.id}/')
     assert response.context.get('diet') == diet
@@ -293,7 +306,8 @@ def test_diet_detail_view(client, diet):
 @pytest.mark.django_db
 def test_get_diet_add_view_(client, user):
     """
-    XXX
+    A ``GET`` to the ``add_diet`` for logged in
+    user gets status code 200.
     """
     client.force_login(user)
     get_response = client.get('/diets/add/', follow=True)
@@ -303,7 +317,8 @@ def test_get_diet_add_view_(client, user):
 @pytest.mark.django_db
 def test_post_diet_add_view(client, user, recipe):
     """
-    XXX
+    A ``POST`` to the ``add_diet`` view with valid data properly
+    creates new diet and gets status code 200.
     """
     client.force_login(user)
     count_before_create = Diet.objects.count()
@@ -324,7 +339,8 @@ def test_post_diet_add_view(client, user, recipe):
 @pytest.mark.django_db
 def test_get_diet_delete_view_(client, user, diet):
     """
-    XXX
+    A ``GET`` to the ``delete_diet`` for logged in
+    user who created the diet gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/diets/delete/{diet.id}/', follow=True)
@@ -334,7 +350,8 @@ def test_get_diet_delete_view_(client, user, diet):
 @pytest.mark.django_db
 def test_post_diet_delete_view(client, user, diet):
     """
-    XXX
+    A ``POST`` to the ``delete_diet`` view properly
+    deletes the given diet.
     """
     client.force_login(user)
     count_before_delete = Diet.objects.count()
@@ -346,7 +363,8 @@ def test_post_diet_delete_view(client, user, diet):
 @pytest.mark.django_db
 def test_get_diet_update_view_(client, user, diet):
     """
-    XXX
+    A ``GET`` to the ``update_diet`` for logged in
+    user who created the diet gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/diets/update/{diet.id}/', follow=True)
@@ -356,7 +374,8 @@ def test_get_diet_update_view_(client, user, diet):
 @pytest.mark.django_db
 def test_post_diet_update_view(client, user, recipe, diet):
     """
-    XXX
+    A ``POST`` to the ``update_diet`` view with valid data properly
+    updates the diet and gets status code 200.
     """
     client.force_login(user)
     post_response = client.post(
@@ -375,7 +394,9 @@ def test_post_diet_update_view(client, user, recipe, diet):
 @pytest.mark.django_db
 def test_my_diets_list_view(client, diet, user):
     """
-    XXX
+    A ``GET`` to the ``my_diets`` view populates the diets
+    created by a given user into the context and gets
+    status code 200.
     """
     client.force_login(user)
     response = client.get(f'/diets/my/{user.id}/')
@@ -386,7 +407,7 @@ def test_my_diets_list_view(client, diet, user):
 @pytest.fixture
 def superuser():
     """
-    XXX
+    Create superuser fixture.
     """
     superuser = User.objects.create(
         username="testsuperuser",
@@ -402,7 +423,7 @@ def superuser():
 @pytest.fixture
 def allergen():
     """
-    XXX
+    Create allergen fixture.
     """
     allergen = Allergen.objects.create(
         name="testallergen"
@@ -413,7 +434,9 @@ def allergen():
 @pytest.mark.django_db
 def test_allergen_list_view(client, allergen, superuser):
     """
-    XXX
+    A ``GET`` to the ``allergens`` view populates the allergens
+    into the context when a superuser is logged in
+    and gets status code 200.
     """
     client.force_login(superuser)
     response = client.get('/allergen/')
@@ -424,7 +447,8 @@ def test_allergen_list_view(client, allergen, superuser):
 @pytest.mark.django_db
 def test_get_allergen_add_view_(client, superuser):
     """
-    XXX
+    A ``GET`` to the ``add_allergen`` for logged in
+    user gets status code 200.
     """
     client.force_login(superuser)
     get_response = client.get('/allergen/add/', follow=True)
@@ -434,7 +458,8 @@ def test_get_allergen_add_view_(client, superuser):
 @pytest.mark.django_db
 def test_post_allergen_add_view(client, superuser):
     """
-    XXX
+    A ``POST`` to the ``add_allergen`` view with valid data properly
+    creates new allergen and gets status code 200.
     """
     client.force_login(superuser)
     count_before_create = Allergen.objects.count()
@@ -453,7 +478,8 @@ def test_post_allergen_add_view(client, superuser):
 @pytest.mark.django_db
 def test_get_allergen_delete_view_(client, superuser, allergen):
     """
-    XXX
+    A ``GET`` to the ``delete_allergen`` for logged in
+    superuser gets status code 200.
     """
     client.force_login(superuser)
     get_response = client.get(f'/allergen/delete/{allergen.id}/', follow=True)
@@ -463,7 +489,8 @@ def test_get_allergen_delete_view_(client, superuser, allergen):
 @pytest.mark.django_db
 def test_post_allergen_delete_view(client, superuser, allergen):
     """
-    XXX
+    A ``POST`` to the ``delete_allergen`` view properly
+    deletes the given allergen.
     """
     client.force_login(superuser)
     count_before_delete = Allergen.objects.count()
@@ -475,7 +502,7 @@ def test_post_allergen_delete_view(client, superuser, allergen):
 @pytest.fixture
 def category():
     """
-    XXX
+    Create category fixture.
     """
     category = Category.objects.create(
         name="testcategory"
@@ -486,7 +513,8 @@ def category():
 @pytest.mark.django_db
 def test_category_list_view(client, category):
     """
-    XXX
+    A ``GET`` to the ``categories`` view populates the categories
+    into the context and gets status code 200.
     """
     response = client.get('/category/')
     assert response.context.get('categories') == [category]
@@ -496,7 +524,8 @@ def test_category_list_view(client, category):
 @pytest.mark.django_db
 def test_get_category_add_view_(client, superuser):
     """
-    XXX
+    A ``GET`` to the ``add_category`` for logged in
+    user gets status code 200.
     """
     client.force_login(superuser)
     get_response = client.get('/category/add/', follow=True)
@@ -506,7 +535,8 @@ def test_get_category_add_view_(client, superuser):
 @pytest.mark.django_db
 def test_post_category_add_view(client, superuser):
     """
-    XXX
+    A ``POST`` to the ``add_category`` view with valid data properly
+    creates new category and gets status code 200.
     """
     client.force_login(superuser)
     count_before_create = Category.objects.count()
@@ -525,7 +555,8 @@ def test_post_category_add_view(client, superuser):
 @pytest.mark.django_db
 def test_get_category_delete_view_(client, superuser, category):
     """
-    XXX
+    A ``GET`` to the ``delete_category`` for logged in
+    superuser gets status code 200.
     """
     client.force_login(superuser)
     get_response = client.get(f'/category/delete/{category.id}/', follow=True)
@@ -535,7 +566,8 @@ def test_get_category_delete_view_(client, superuser, category):
 @pytest.mark.django_db
 def test_post_category_delete_view(client, superuser, category):
     """
-    XXX
+    A ``POST`` to the ``delete_category`` view properly
+    deletes the given category.
     """
     client.force_login(superuser)
     count_before_delete = Category.objects.count()
@@ -547,7 +579,7 @@ def test_post_category_delete_view(client, superuser, category):
 @pytest.fixture
 def opinion(user, recipe):
     """
-    XXX
+    Create opinion fixture.
     """
     opinion = Opinion.objects.create(
         title="testopinion",
@@ -561,7 +593,8 @@ def opinion(user, recipe):
 @pytest.mark.django_db
 def test_get_opinion_add_view_(client, user, recipe):
     """
-    XXX
+    A ``GET`` to the ``add_opinion`` for logged in
+    user gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/opinion/add/{recipe.id}/', follow=True)
@@ -571,7 +604,8 @@ def test_get_opinion_add_view_(client, user, recipe):
 @pytest.mark.django_db
 def test_post_opinion_add_view(client, superuser, recipe):
     """
-    XXX
+    A ``POST`` to the ``add_opinion`` view with valid data properly
+    creates new opinion and gets status code 200.
     """
     client.force_login(superuser)
     count_before_create = Opinion.objects.count()
@@ -593,7 +627,8 @@ def test_post_opinion_add_view(client, superuser, recipe):
 @pytest.mark.django_db
 def test_get_opinion_delete_view_(client, user, opinion):
     """
-    XXX
+    A ``GET`` to the ``delete_opinion`` for logged in
+    user who created the opinion gets status code 200.
     """
     client.force_login(user)
     get_response = client.get(f'/opinion/delete/{opinion.id}/', follow=True)
@@ -603,7 +638,8 @@ def test_get_opinion_delete_view_(client, user, opinion):
 @pytest.mark.django_db
 def test_post_opinion_delete_view(client, user, opinion):
     """
-    XXX
+    A ``POST`` to the ``delete_opinion`` view properly
+    deletes the given opinion.
     """
     client.force_login(user)
     count_before_delete = Opinion.objects.count()
@@ -615,7 +651,8 @@ def test_post_opinion_delete_view(client, user, opinion):
 @pytest.mark.django_db
 def test_get_opinion_update_view_(client, superuser, opinion):
     """
-    XXX
+    A ``GET`` to the ``update_opinion`` for logged in
+    user who created the opinion gets status code 200.
     """
     client.force_login(superuser)
     get_response = client.get(f'/opinion/update/{opinion.id}/', follow=True)
@@ -625,7 +662,8 @@ def test_get_opinion_update_view_(client, superuser, opinion):
 @pytest.mark.django_db
 def test_post_opinion_update_view(client, superuser, recipe, opinion):
     """
-    XXX
+    A ``POST`` to the ``update_opinion`` view with valid data properly
+    updates the opinion and gets status code 200.
     """
     client.force_login(superuser)
     post_response = client.post(
