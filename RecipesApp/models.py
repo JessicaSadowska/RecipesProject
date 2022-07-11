@@ -3,6 +3,9 @@ from django.db import models
 
 
 class Allergen(models.Model):
+    """
+    Stores a single allergen.
+    """
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -10,6 +13,9 @@ class Allergen(models.Model):
 
 
 class Category(models.Model):
+    """
+    Stores a single category.
+    """
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -17,6 +23,10 @@ class Category(models.Model):
 
 
 class Recipe(models.Model):
+    """
+    Stores a single recipe, related to :model:`Allergen`, :model:`Category`
+    and :model:`auth.User`.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     ingredients = models.TextField()
@@ -35,6 +45,10 @@ class Recipe(models.Model):
 
 
 class Diet(models.Model):
+    """
+    Stores a single diet, related to :model:`Recipe` and
+    :model:`auth.User`.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField()
     meals = models.ManyToManyField(Recipe, related_name="meals_list")
@@ -45,6 +59,10 @@ class Diet(models.Model):
 
 
 class Opinion(models.Model):
+    """
+    Stores a single opinion, related to :model:`Recipe`
+    and :model:`auth.User`.
+    """
     RATINGS = (
         (1, "1"),
         (2, "2"),

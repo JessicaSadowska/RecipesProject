@@ -6,6 +6,9 @@ from RecipesApp.models import Recipe, Diet, Allergen, Category
 
 @pytest.fixture
 def user():
+    """
+    XXX
+    """
     user = User.objects.create(
         username="testuser",
         first_name="Jan",
@@ -18,12 +21,18 @@ def user():
 
 @pytest.fixture
 def client():
+    """
+    XXX
+    """
     client = Client()
     return client
 
 
 @pytest.mark.django_db
 def test_main_page(client):
+    """
+    XXX
+    """
     response = client.get('')
     assert response.status_code == 200
 
@@ -67,6 +76,9 @@ def test_post_register_view(client):
 
 @pytest.mark.django_db
 def test_get_login_view(client):
+    """
+    XXX
+    """
     get_response = client.get('/login/')
     # assert get_response.context.get('form') == LoginForm
     assert get_response.status_code == 200
@@ -74,6 +86,9 @@ def test_get_login_view(client):
 
 @pytest.mark.django_db
 def test_post_login_view(client, user):
+    """
+    XXX
+    """
     post_response = client.post(
         '/login/',
         {
@@ -89,6 +104,9 @@ def test_post_login_view(client, user):
 
 @pytest.mark.django_db
 def test_logout_view(client, user):
+    """
+    XXX
+    """
     client.force_login(user)
     response = client.get('/logout/')
     assert response.headers["Location"] == "/login/"
@@ -97,6 +115,9 @@ def test_logout_view(client, user):
 
 @pytest.fixture
 def recipe(user):
+    """
+    XXX
+    """
     recipe = Recipe.objects.create(
         name="testrecipe",
         description="testdescription",
@@ -113,6 +134,9 @@ def recipe(user):
 
 @pytest.mark.django_db
 def test_recipe_list_view(client, recipe):
+    """
+    XXX
+    """
     response = client.get('/recipes/')
     assert response.context.get('recipes') == [recipe]
     assert response.status_code == 200
@@ -120,6 +144,9 @@ def test_recipe_list_view(client, recipe):
 
 @pytest.mark.django_db
 def test_recipe_detail_view(client, recipe):
+    """
+    XXX
+    """
     response = client.get(f'/recipes/{recipe.id}/')
     assert response.context.get('recipe') == recipe
     assert response.status_code == 200
@@ -127,6 +154,9 @@ def test_recipe_detail_view(client, recipe):
 
 @pytest.mark.django_db
 def test_get_recipe_add_view_(client, user):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get('/recipes/add/', follow=True)
     assert get_response.status_code == 200
@@ -134,6 +164,9 @@ def test_get_recipe_add_view_(client, user):
 
 @pytest.mark.django_db
 def test_post_recipe_add_view(client, user):
+    """
+    XXX
+    """
     client.force_login(user)
     count_before_create = Recipe.objects.count()
     post_response = client.post(
@@ -157,6 +190,9 @@ def test_post_recipe_add_view(client, user):
 
 @pytest.mark.django_db
 def test_get_recipe_delete_view_(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/recipes/delete/{recipe.id}/', follow=True)
     assert get_response.status_code == 200
@@ -164,6 +200,9 @@ def test_get_recipe_delete_view_(client, user, recipe):
 
 @pytest.mark.django_db
 def test_post_recipe_delete_view(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     count_before_delete = Recipe.objects.count()
     client.post(f'/recipes/delete/{recipe.id}/', follow=True)
@@ -173,6 +212,9 @@ def test_post_recipe_delete_view(client, user, recipe):
 
 @pytest.mark.django_db
 def test_get_recipe_update_view_(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/recipes/update/{recipe.id}/', follow=True)
     assert get_response.status_code == 200
@@ -180,6 +222,9 @@ def test_get_recipe_update_view_(client, user, recipe):
 
 @pytest.mark.django_db
 def test_post_recipe_update_view(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     post_response = client.post(
         f'/recipes/update/{recipe.id}/',
@@ -201,6 +246,9 @@ def test_post_recipe_update_view(client, user, recipe):
 
 @pytest.mark.django_db
 def test_my_recipes_list_view(client, recipe, user):
+    """
+    XXX
+    """
     client.force_login(user)
     response = client.get(f'/recipes/my/{user.id}/')
     assert response.context.get('recipes')[0] == recipe
@@ -209,6 +257,9 @@ def test_my_recipes_list_view(client, recipe, user):
 
 @pytest.fixture
 def diet(user, recipe):
+    """
+    XXX
+    """
     recipes = Recipe.objects.all()
     diet = Diet.objects.create(
         name="testdiet",
@@ -221,6 +272,9 @@ def diet(user, recipe):
 
 @pytest.mark.django_db
 def test_diet_list_view(client, diet):
+    """
+    XXX
+    """
     response = client.get('/diets/')
     assert response.context.get('diets') == [diet]
     assert response.status_code == 200
@@ -228,6 +282,9 @@ def test_diet_list_view(client, diet):
 
 @pytest.mark.django_db
 def test_diet_detail_view(client, diet):
+    """
+    XXX
+    """
     response = client.get(f'/diets/{diet.id}/')
     assert response.context.get('diet') == diet
     assert response.status_code == 200
@@ -235,6 +292,9 @@ def test_diet_detail_view(client, diet):
 
 @pytest.mark.django_db
 def test_get_diet_add_view_(client, user):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get('/diets/add/', follow=True)
     assert get_response.status_code == 200
@@ -242,6 +302,9 @@ def test_get_diet_add_view_(client, user):
 
 @pytest.mark.django_db
 def test_post_diet_add_view(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     count_before_create = Diet.objects.count()
     post_response = client.post(
@@ -260,6 +323,9 @@ def test_post_diet_add_view(client, user, recipe):
 
 @pytest.mark.django_db
 def test_get_diet_delete_view_(client, user, diet):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/diets/delete/{diet.id}/', follow=True)
     assert get_response.status_code == 200
@@ -267,6 +333,9 @@ def test_get_diet_delete_view_(client, user, diet):
 
 @pytest.mark.django_db
 def test_post_diet_delete_view(client, user, diet):
+    """
+    XXX
+    """
     client.force_login(user)
     count_before_delete = Diet.objects.count()
     client.post(f'/diets/delete/{diet.id}/', follow=True)
@@ -276,6 +345,9 @@ def test_post_diet_delete_view(client, user, diet):
 
 @pytest.mark.django_db
 def test_get_diet_update_view_(client, user, diet):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/diets/update/{diet.id}/', follow=True)
     assert get_response.status_code == 200
@@ -283,6 +355,9 @@ def test_get_diet_update_view_(client, user, diet):
 
 @pytest.mark.django_db
 def test_post_diet_update_view(client, user, recipe, diet):
+    """
+    XXX
+    """
     client.force_login(user)
     post_response = client.post(
         f'/diets/update/{diet.id}/',
@@ -299,6 +374,9 @@ def test_post_diet_update_view(client, user, recipe, diet):
 
 @pytest.mark.django_db
 def test_my_diets_list_view(client, diet, user):
+    """
+    XXX
+    """
     client.force_login(user)
     response = client.get(f'/diets/my/{user.id}/')
     assert response.context.get('diets')[0] == diet
@@ -307,6 +385,9 @@ def test_my_diets_list_view(client, diet, user):
 
 @pytest.fixture
 def superuser():
+    """
+    XXX
+    """
     superuser = User.objects.create(
         username="testsuperuser",
         first_name="Adam",
@@ -320,6 +401,9 @@ def superuser():
 
 @pytest.fixture
 def allergen():
+    """
+    XXX
+    """
     allergen = Allergen.objects.create(
         name="testallergen"
     )
@@ -328,6 +412,9 @@ def allergen():
 
 @pytest.mark.django_db
 def test_allergen_list_view(client, allergen, superuser):
+    """
+    XXX
+    """
     client.force_login(superuser)
     response = client.get('/allergen/')
     assert response.context.get('allergens') == [allergen]
@@ -336,6 +423,9 @@ def test_allergen_list_view(client, allergen, superuser):
 
 @pytest.mark.django_db
 def test_get_allergen_add_view_(client, superuser):
+    """
+    XXX
+    """
     client.force_login(superuser)
     get_response = client.get('/allergen/add/', follow=True)
     assert get_response.status_code == 200
@@ -343,6 +433,9 @@ def test_get_allergen_add_view_(client, superuser):
 
 @pytest.mark.django_db
 def test_post_allergen_add_view(client, superuser):
+    """
+    XXX
+    """
     client.force_login(superuser)
     count_before_create = Allergen.objects.count()
     post_response = client.post(
@@ -359,6 +452,9 @@ def test_post_allergen_add_view(client, superuser):
 
 @pytest.mark.django_db
 def test_get_allergen_delete_view_(client, superuser, allergen):
+    """
+    XXX
+    """
     client.force_login(superuser)
     get_response = client.get(f'/allergen/delete/{allergen.id}/', follow=True)
     assert get_response.status_code == 200
@@ -366,6 +462,9 @@ def test_get_allergen_delete_view_(client, superuser, allergen):
 
 @pytest.mark.django_db
 def test_post_allergen_delete_view(client, superuser, allergen):
+    """
+    XXX
+    """
     client.force_login(superuser)
     count_before_delete = Allergen.objects.count()
     client.post(f'/allergen/delete/{allergen.id}/', follow=True)
@@ -375,6 +474,9 @@ def test_post_allergen_delete_view(client, superuser, allergen):
 
 @pytest.fixture
 def category():
+    """
+    XXX
+    """
     category = Category.objects.create(
         name="testcategory"
     )
@@ -383,6 +485,9 @@ def category():
 
 @pytest.mark.django_db
 def test_category_list_view(client, category):
+    """
+    XXX
+    """
     response = client.get('/category/')
     assert response.context.get('categories') == [category]
     assert response.status_code == 200
@@ -390,6 +495,9 @@ def test_category_list_view(client, category):
 
 @pytest.mark.django_db
 def test_get_category_add_view_(client, superuser):
+    """
+    XXX
+    """
     client.force_login(superuser)
     get_response = client.get('/category/add/', follow=True)
     assert get_response.status_code == 200
@@ -397,6 +505,9 @@ def test_get_category_add_view_(client, superuser):
 
 @pytest.mark.django_db
 def test_post_category_add_view(client, superuser):
+    """
+    XXX
+    """
     client.force_login(superuser)
     count_before_create = Category.objects.count()
     post_response = client.post(
@@ -413,6 +524,9 @@ def test_post_category_add_view(client, superuser):
 
 @pytest.mark.django_db
 def test_get_category_delete_view_(client, superuser, category):
+    """
+    XXX
+    """
     client.force_login(superuser)
     get_response = client.get(f'/category/delete/{category.id}/', follow=True)
     assert get_response.status_code == 200
@@ -420,6 +534,9 @@ def test_get_category_delete_view_(client, superuser, category):
 
 @pytest.mark.django_db
 def test_post_category_delete_view(client, superuser, category):
+    """
+    XXX
+    """
     client.force_login(superuser)
     count_before_delete = Category.objects.count()
     client.post(f'/category/delete/{category.id}/', follow=True)
@@ -429,6 +546,9 @@ def test_post_category_delete_view(client, superuser, category):
 
 @pytest.fixture
 def opinion(user, recipe):
+    """
+    XXX
+    """
     opinion = Opinion.objects.create(
         title="testopinion",
         content="testcontent",
@@ -440,6 +560,9 @@ def opinion(user, recipe):
 
 @pytest.mark.django_db
 def test_get_opinion_add_view_(client, user, recipe):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/opinion/add/{recipe.id}/', follow=True)
     assert get_response.status_code == 200
@@ -447,6 +570,9 @@ def test_get_opinion_add_view_(client, user, recipe):
 
 @pytest.mark.django_db
 def test_post_opinion_add_view(client, superuser, recipe):
+    """
+    XXX
+    """
     client.force_login(superuser)
     count_before_create = Opinion.objects.count()
     post_response = client.post(
@@ -466,6 +592,9 @@ def test_post_opinion_add_view(client, superuser, recipe):
 
 @pytest.mark.django_db
 def test_get_opinion_delete_view_(client, user, opinion):
+    """
+    XXX
+    """
     client.force_login(user)
     get_response = client.get(f'/opinion/delete/{opinion.id}/', follow=True)
     assert get_response.status_code == 200
@@ -473,6 +602,9 @@ def test_get_opinion_delete_view_(client, user, opinion):
 
 @pytest.mark.django_db
 def test_post_opinion_delete_view(client, user, opinion):
+    """
+    XXX
+    """
     client.force_login(user)
     count_before_delete = Opinion.objects.count()
     client.post(f'/opinion/delete/{opinion.id}/', follow=True)
@@ -482,6 +614,9 @@ def test_post_opinion_delete_view(client, user, opinion):
 
 @pytest.mark.django_db
 def test_get_opinion_update_view_(client, superuser, opinion):
+    """
+    XXX
+    """
     client.force_login(superuser)
     get_response = client.get(f'/opinion/update/{opinion.id}/', follow=True)
     assert get_response.status_code == 200
@@ -489,6 +624,9 @@ def test_get_opinion_update_view_(client, superuser, opinion):
 
 @pytest.mark.django_db
 def test_post_opinion_update_view(client, superuser, recipe, opinion):
+    """
+    XXX
+    """
     client.force_login(superuser)
     post_response = client.post(
         f'/opinion/update/{opinion.id}/',

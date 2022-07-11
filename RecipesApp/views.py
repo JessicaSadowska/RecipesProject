@@ -11,11 +11,19 @@ from .models import *
 
 class MainPage(View):
     def get(self, request):
+        """
+        Return the base template rendered.
+        :template: base.html
+        """
         return render(request, 'base.html')
 
 
 class Register(View):
     def get(self, request):
+        """
+        Return the register form.
+        :template: register.html
+        """
         form = forms.RegisterForm()
 
         return render(
@@ -27,6 +35,11 @@ class Register(View):
         )
 
     def post(self, request):
+        """
+        Register new user if data is valid and redirect to login page.
+        Render register form again if data is invalid.
+        :template: register.html
+        """
         form = forms.RegisterForm(request.POST)
 
         if form.is_valid():
@@ -54,6 +67,10 @@ class Register(View):
 
 class Login(View):
     def get(self, request):
+        """
+        Return the login form.
+        :template: login.html
+        """
         form = forms.LoginForm()
 
         return render(
@@ -65,6 +82,11 @@ class Login(View):
         )
 
     def post(self, request):
+        """
+        Login user if data is valid.
+        Render login form again if data is invalid.
+        :template: login.html
+        """
         form = forms.LoginForm(request.POST)
 
         if form.is_valid():
@@ -101,6 +123,9 @@ class Login(View):
 
 class Logout(View):
     def get(self, request):
+        """
+        Log user out and redirect to login page.
+        """
         if request.user:
             logout(request)
 
@@ -109,6 +134,10 @@ class Logout(View):
 
 class Recipes(View):
     def get(self, request):
+        """
+        Display all instances of :model:`RecipesApp.Recipe`.
+        :template:`recipes_list.html`
+        """
         recipes = get_list_or_404(Recipe)
 
         return render(
@@ -122,6 +151,11 @@ class Recipes(View):
 
 class RecipeDetail(View):
     def get(self, request, recipe_id):
+        """
+        Display an individual :model:`RecipesApp.Recipe` with a given id.
+        :param recipe_id: integer
+        :template:`recipe_detail.html`
+        """
         recipe = Recipe.objects.get(id=recipe_id)
         allergens = recipe.allergens.all()
         opinions = recipe.opinion_set.all()
@@ -139,6 +173,12 @@ class RecipeDetail(View):
 
 @method_decorator(login_required, name='dispatch')
 class AddRecipe(generic.CreateView):
+    """
+    Creates a new instance of :model:`RecipesApp.Recipe` and redirects
+    to recipes list view.
+    :form_class: 'AddRecipeForm'
+    :template:`add_recipe.html`
+    """
     model = Recipe
     form_class = AddRecipeForm
     success_url = '/recipes/'
@@ -154,6 +194,11 @@ class AddRecipe(generic.CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteRecipe(generic.DeleteView):
+    """
+    Deletes the instance of :model:`RecipesApp.Recipe` and redirects
+    to recipes list view.
+    :template:`delete_recipe.html`
+    """
     model = Recipe
     success_url = '/recipes/'
     template_name = 'delete_recipe.html'
@@ -161,6 +206,11 @@ class DeleteRecipe(generic.DeleteView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateRecipe(generic.UpdateView):
+    """
+    Updates the instance of :model:`RecipesApp.Recipe` and redirects
+    to recipes list view.
+    :template:`update_recipe.html`
+    """
     model = Recipe
     form_class = AddRecipeForm
     template_name = 'update_recipe.html'
@@ -169,6 +219,10 @@ class UpdateRecipe(generic.UpdateView):
 
 class Diets(View):
     def get(self, request):
+        """
+        Display all instances of :model:`RecipesApp.Diet`.
+        :template:`diets_list.html`
+        """
         diets = get_list_or_404(Diet)
 
         return render(
@@ -182,6 +236,11 @@ class Diets(View):
 
 class DietDetail(View):
     def get(self, request, diet_id):
+        """
+        Display an individual :model:`RecipesApp.Diet` with a given id.
+        :param diet_id: integer
+        :template:`diet_detail.html`
+        """
         diet = Diet.objects.get(id=diet_id)
         recipes = diet.meals.all()
         kcal = 0
@@ -211,6 +270,12 @@ class DietDetail(View):
 
 @method_decorator(login_required, name='dispatch')
 class AddDiet(generic.CreateView):
+    """
+    Creates a new instance of :model:`RecipesApp.Diet` and redirects
+    to diet list view.
+    :form_class: 'AddDietForm'
+    :template:`add_diet.html`
+    """
     model = Diet
     form_class = AddDietForm
     success_url = '/diets/'
@@ -223,6 +288,11 @@ class AddDiet(generic.CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteDiet(generic.DeleteView):
+    """
+    Deletes the instance of :model:`RecipesApp.Diet` and redirects
+    to diet list view.
+    :template:`delete_diet.html`
+    """
     model = Diet
     success_url = '/diets/'
     template_name = 'delete_diet.html'
@@ -230,6 +300,11 @@ class DeleteDiet(generic.DeleteView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateDiet(generic.UpdateView):
+    """
+    Updates the instance of :model:`RecipesApp.Diet` and redirects
+    to diet list view.
+    :template:`update_diet.html`
+    """
     model = Diet
     form_class = AddDietForm
     template_name = 'update_diet.html'
@@ -239,6 +314,10 @@ class UpdateDiet(generic.UpdateView):
 @method_decorator(login_required, name='dispatch')
 class Allergens(View):
     def get(self, request):
+        """
+        Display all instances of :model:`RecipesApp.Allergen`.
+        :template:`allergen_list.html`
+        """
         allergens = get_list_or_404(Allergen)
 
         return render(
@@ -252,6 +331,11 @@ class Allergens(View):
 
 @method_decorator(login_required, name='dispatch')
 class AddAllergen(generic.CreateView):
+    """
+    Creates a new instance of :model:`RecipesApp.Allergen` and redirects
+    to allergen list view.
+    :template:`add_allergen.html`
+    """
     model = Allergen
     fields = "__all__"
     success_url = '/allergen/'
@@ -260,6 +344,11 @@ class AddAllergen(generic.CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteAllergen(generic.DeleteView):
+    """
+    Deletes the instance of :model:`RecipesApp.Allergen` and redirects
+    to allergen list view.
+    :template:`delete_allergen.html`
+    """
     model = Allergen
     success_url = '/allergen/'
     template_name = 'delete_allergen.html'
@@ -267,6 +356,10 @@ class DeleteAllergen(generic.DeleteView):
 
 class Categories(View):
     def get(self, request):
+        """
+        Display all instances of :model:`RecipesApp.Category`.
+        :template:`category_list.html`
+        """
         categories = get_list_or_404(Category)
 
         return render(
@@ -280,6 +373,11 @@ class Categories(View):
 
 @method_decorator(login_required, name='dispatch')
 class AddCategory(generic.CreateView):
+    """
+    Creates a new instance of :model:`RecipesApp.Category` and redirects
+    to category list view.
+    :template:`add_category.html`
+    """
     model = Category
     fields = "__all__"
     success_url = '/category/'
@@ -288,6 +386,11 @@ class AddCategory(generic.CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteCategory(generic.DeleteView):
+    """
+    Deletes the instance of :model:`RecipesApp.Category` and redirects
+    to category list view.
+    :template:`delete_category.html`
+    """
     model = Category
     success_url = '/category/'
     template_name = 'delete_category.html'
@@ -295,6 +398,11 @@ class DeleteCategory(generic.DeleteView):
 
 class RecipesInCategory(View):
     def get(self, request, category_id):
+        """
+        Display all instances of :model:`RecipesApp.Recipe` in a given category.
+        :param category_id: integer
+        :template:`recipes_in_category_list.html`
+        """
         category = Category.objects.get(id=category_id)
         recipes_in_category = get_list_or_404(Recipe.objects.filter(category=category))
 
@@ -311,6 +419,11 @@ class RecipesInCategory(View):
 @method_decorator(login_required, name='dispatch')
 class MyRecipes(View):
     def get(self, request, user_id):
+        """
+        Display all instances of :model:`RecipesApp.Recipe` created by a given user.
+        :param user_id: integer
+        :template:`recipes_list.html`
+        """
         user = User.objects.get(id=user_id)
         user_recipes = user.recipe_set.all()
 
@@ -326,6 +439,11 @@ class MyRecipes(View):
 @method_decorator(login_required, name='dispatch')
 class MyDiets(View):
     def get(self, request, user_id):
+        """
+        Display all instances of :model:`RecipesApp.Diet` created by a given user.
+        :param user_id: integer
+        :template:`diets_list.html`
+        """
         user = User.objects.get(id=user_id)
         user_diets = user.diet_set.all()
 
@@ -340,6 +458,12 @@ class MyDiets(View):
 
 @method_decorator(login_required, name='dispatch')
 class AddOpinion(generic.CreateView):
+    """
+    Creates a new instance of :model:`RecipesApp.Opinion` and redirects
+    to recipe detail view.
+    :form_class:`AddOpinionForm`
+    :template:`add_opinion.html`
+    """
     model = Opinion
     form_class = AddOpinionForm
     template_name = 'add_opinion.html'
@@ -360,6 +484,11 @@ class AddOpinion(generic.CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class DeleteOpinion(generic.DeleteView):
+    """
+    Deletes the instance of :model:`RecipesApp.Opinion` and redirects
+    to recipe detail view.
+    :template:`delete_opinion.html`
+    """
     model = Opinion
     template_name = 'delete_opinion.html'
 
@@ -372,6 +501,11 @@ class DeleteOpinion(generic.DeleteView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateOpinion(generic.UpdateView):
+    """
+    Updates the instance of :model:`RecipesApp.Opinion` and redirects
+    to recipe detail view.
+    :template:`update_opinion.html`
+    """
     model = Opinion
     form_class = AddOpinionForm
     template_name = 'update_opinion.html'

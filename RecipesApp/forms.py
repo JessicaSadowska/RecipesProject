@@ -6,11 +6,18 @@ from RecipesApp.models import Diet, Recipe, Opinion
 
 
 class LoginForm(forms.Form):
+    """
+    Stores the login form with fields 'username' and 'password'.
+    """
     username = forms.CharField(label='Nazwa użytkownika')
     password = forms.CharField(widget=forms.PasswordInput, label='Hasło')
 
 
 class RegisterForm(forms.Form):
+    """
+    Stores the register form with fields 'username', 'password', 'password2',
+    'first_name', 'last_name' and 'email'.
+    """
     username = forms.CharField(label='Nazwa użytkownika')
     password = forms.CharField(widget=forms.PasswordInput, label='Hasło')
     password2 = forms.CharField(widget=forms.PasswordInput, label='Powtórz hasło')
@@ -19,6 +26,9 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label='e-mail')
 
     def clean(self):
+        """
+        Checks if given passwords are identical, raises Validationerror if not.
+        """
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
@@ -26,6 +36,9 @@ class RegisterForm(forms.Form):
             raise ValidationError("Podane hasła nie są identyczne")
 
     def clean_username(self):
+        """
+        Checks if given username already exists, raises Validationerror if it does.
+        """
         username = self.cleaned_data.get('username')
         user = User.objects.filter(username=username)
         if user:
@@ -34,6 +47,9 @@ class RegisterForm(forms.Form):
 
 
 class AddRecipeForm(forms.ModelForm):
+    """
+    Stores the recipe adding form based on :model:`Recipe`.
+    """
 
     class Meta:
         model = Recipe
@@ -59,6 +75,9 @@ class AddRecipeForm(forms.ModelForm):
 
 
 class AddDietForm(forms.ModelForm):
+    """
+    Stores the diet adding form based on :model:`Diet`.
+    """
 
     class Meta:
         model = Diet
@@ -74,6 +93,9 @@ class AddDietForm(forms.ModelForm):
 
 
 class AddOpinionForm(forms.ModelForm):
+    """
+    Stores the diet adding form based on :model:`Opinion`.
+    """
 
     class Meta:
         model = Opinion
